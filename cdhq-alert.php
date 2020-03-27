@@ -1,6 +1,7 @@
 <?php
 /**
  * Plugin Name: CDHQ Alert Plugin
+ * Version: 1.0.3
  */
 
 if (!class_exists('ACF')) {
