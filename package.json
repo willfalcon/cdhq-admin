@@ -1,0 +1,44 @@
+{
+  "name": "cdhq-alert-plugin",
+  "version": "1.0.0",
+  "description": "WordPress plugin for Creative Distillery sites which adds a simple site-wide alert functionality. Requires free plugin acf-to-rest-api to work.",
+  "author": "Creative Distillery",
+  "repository": "https://github.com/willfalcon/repeat-street-2.git",
+  "private": true,
+  "scripts": {
+    "start": "gulp watch",
+    "build": "gulp",
+    "modernizr": "modernizr -c modernizr-config.json -d dist"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.4.5",
+    "normalize.css": "^8.0.0",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "autoprefixer": "^9.6.0",
+    "browserify": "^16.2.0",
+    "cssnano": "^4.1.10",
+    "gulp": "^4.0.2",
+    "gulp-cached": "^1.1.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^6.0.0",
+    "gulp-livereload": "^4.0.1",
+    "gulp-postcss": "^8.0.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.4",
+    "node-sass": "^4.12.0",
+    "postcss-object-fit-images": "^1.1.2",
+    "rollup": "^1.15.1",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-node-resolve": "^5.0.1",
+    "rollup-plugin-strip": "^1.2.1",
+    "rollup-plugin-uglify": "^6.0.2",
+    "streamqueue": "^1.1.2"
+  }
+}
