@@ -60,6 +60,21 @@ acf_add_local_field_group(array(
 			'return_format' => 'array',
 		),
 		array(
+			'key' => 'field_5e7d1dfe08a4x',
+			'label' => 'Alert Button 2',
+			'name' => 'alert_button_2',
+			'type' => 'link',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'return_format' => 'array',
+		),
+		array(
 			'key' => 'field_5e7d1e0508a4d',
 			'label' => 'Alert Delay',
 			'name' => 'alert_delay',

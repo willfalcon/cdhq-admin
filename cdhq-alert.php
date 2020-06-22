@@ -1,7 +1,8 @@
 <?php
 /**
  * Plugin Name: CDHQ Alert Plugin
- * Version: 1.0.3
+ * Version: 1.2.0-m2l
+ * Description: Set a dismissable site-wide alert.
  */
 
 if (!class_exists('ACF')) {
@@ -13,10 +14,12 @@ if (!class_exists('ACF')) {
   // Include the ACF plugin.
   include_once( ACF_PATH . 'acf.php' );
 
-  // Customize the url setting to fix incorrect asset URLs.
-  add_filter('acf/settings/url', 'my_acf_settings_url');
-  function my_acf_settings_url( $url ) {
-      return ACF_URL;
+  if (!function_exists('my_acf_settings_url')) {
+    // Customize the url setting to fix incorrect asset URLs.
+    add_filter('acf/settings/url', 'my_acf_settings_url');
+    function my_acf_settings_url( $url ) {
+        return ACF_URL;
+    }
   }
 }
 // (Optional) Hide the ACF admin menu item.

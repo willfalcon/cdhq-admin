@@ -5,12 +5,23 @@ async function initAlert() {
   const optionsRes = await fetch(`${root}/wp-json/acf/v3/options/options`);
   const options = await optionsRes.json();
   console.log(options);
-  const { acf: { activate_alert, alert_button, alert_delay, alert_text, cookie_id, alert_color } } = options;
-  const button = alert_button ? `
-    <a class="cdhq-alert__button" href="${alert_button.url}" target="${alert_button.target}">
-      ${alert_button.title}
+  const {
+    acf: {
+      activate_alert,
+      alert_button,
+      alert_delay,
+      alert_text,
+      cookie_id,
+      alert_color,
+    },
+  } = options;
+  const button = alert_button
+    ? `
+    <a class="cdhq-alert__button" href="${alert_button.url}" target="${alert_button.target}" aria-label="${alert_button.title}">
+      <span class="arrow-icon"></span> 
     </a>
-  ` : ``;
+  `
+    : ``;
   const close = `
     <button class="cdhq-alert__close" id="closeAlert" aria-label="Close alert">
       <span></span>
@@ -18,7 +29,9 @@ async function initAlert() {
     </button>
   `;
   const alert = `
-    <div class="cdhq-alert"${alert_color ? `style="background: ${alert_color};"` : ``}>
+    <div class="cdhq-alert"${
+      alert_color ? `style="background: ${alert_color};"` : ``
+    }>
       <div class="cdhq-alert__text">
         ${alert_text}
       </div>

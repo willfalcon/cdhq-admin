@@ -1,9 +1,8 @@
 {
   "name": "cdhq-alert-plugin",
-  "version": "1.0.3",
+  "version": "1.2.0-m2l",
   "description": "WordPress plugin for Creative Distillery sites which adds a simple site-wide alert functionality. Requires free plugin acf-to-rest-api to work.",
   "author": "Creative Distillery",
-  "repository": "https://github.com/willfalcon/repeat-street-2.git",
   "private": true,
   "scripts": {
     "start": "gulp watch",
