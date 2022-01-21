@@ -18,7 +18,7 @@ $green: #4fa85d;
   padding-right: 3.5rem;
   border-radius: 1px;
   align-items: center;
-  z-index: 1;
+  z-index: 3;
   .admin-bar & {
     top: 46px + 5px;
     @include responsive {

@@ -1,5 +1,5 @@
 const { src, dest } = require('gulp');
-const sass = require('gulp-sass');
+const gulpSass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
 const livereload = require('gulp-livereload');
 const postcss = require('gulp-postcss');
@@ -9,23 +9,19 @@ const objectFit = require('postcss-object-fit-images');
 const rename = require('gulp-rename');
 const streamqueue = require('streamqueue');
 const concat = require('gulp-concat');
+const sass = require('sass');
+const Fiber = require('fibers');
+const sassCompiler = gulpSass(sass);
 
-sass.compiler = require('node-sass');
-
-const postCSSPlugins = [
-  autoprefixer(), 
-  // cssnano(),
-  objectFit
-];
+const postCSSPlugins = [autoprefixer(), cssnano(), objectFit];
 
 function devScss() {
   return streamqueue(
     { objectMode: true },
-    src('./node_modules/normalize.css/normalize.css')
-      .pipe(sourcemaps.init()),
+    src('./node_modules/normalize.css/normalize.css').pipe(sourcemaps.init()),
     src('src/styles.scss')
       .pipe(sourcemaps.init())
-      .pipe(sass().on('error', sass.logError)),
+      .pipe(sassCompiler({ fiber: Fiber }).on('error', sassCompiler.logError))
   )
     .pipe(concat('styles.css'))
     .pipe(sourcemaps.write())
@@ -36,19 +32,16 @@ function devScss() {
 function prodScss() {
   return streamqueue(
     { objectMode: true },
-    src('./node_modules/normalize.css/normalize.css')
-      .pipe(sourcemaps.init()),
+    src('./node_modules/normalize.css/normalize.css').pipe(sourcemaps.init()),
     src('src/styles.scss')
       .pipe(sourcemaps.init())
-      .pipe(sass().on('error', sass.logError)),
+      .pipe(sassCompiler({ fiber: Fiber }).on('error', sassCompiler.logError))
   )
-    .pipe(concat('styles.css'))
+    .pipe(concat('styles.min.css'))
+    .pipe(postcss(postCSSPlugins))
     .pipe(sourcemaps.write())
     .pipe(dest('dist/'))
-    .pipe(postcss(postCSSPlugins))
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(sourcemaps.write())
-    .pipe(dest('dist/'));
+    .pipe(livereload());
 }
 
 exports.devScss = devScss;

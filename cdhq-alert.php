@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: CDHQ Alert Plugin
- * Version: 1.0.3
+ * Version: 1.1.0
  */
 
 if (!class_exists('ACF')) {
@@ -28,13 +28,13 @@ if (!class_exists('ACF')) {
 acf_add_options_page(array(
   'page_title' 	=> 'Site-Wide Alert',
   'menu_title'	=> 'Alert',
-  'position' => 53.3
+  'position' => 54.3
 ));
 
 include_once('fields.php');
 function cdhq_enqueue_assets() {
-  wp_enqueue_script( 'alert-scripts', plugins_url( '/dist/bundle.js', __FILE__ ), array(), null, true);
-  wp_enqueue_style( 'alert-styles', plugins_url( '/dist/styles.css', __FILE__ ) );
+  wp_enqueue_script( 'alert-scripts', plugins_url( '/dist/bundle.min.js', __FILE__ ), array(), null, true);
+  wp_enqueue_style( 'alert-styles', plugins_url( '/dist/styles.min.css', __FILE__ ) );
 }
 add_action( 'wp_enqueue_scripts', 'cdhq_enqueue_assets' );
 

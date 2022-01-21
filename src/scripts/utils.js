@@ -1,4 +1,4 @@
-var createCookie = function(name, value, days) {
+var createCookie = function (name, value, days) {
   var expires;
   if (days) {
     var date = new Date();
@@ -11,7 +11,7 @@ var createCookie = function(name, value, days) {
 };
 
 function getCookie(c_name) {
-  var c_start;
+  var c_start, c_end;
   if (document.cookie.length > 0) {
     c_start = document.cookie.indexOf(c_name + '=');
     if (c_start != -1) {

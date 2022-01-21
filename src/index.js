@@ -1,3 +1,4 @@
+import './scripts/polyfills';
 import { createCookie, getCookie, getMeta } from './scripts/utils.js';
 
 async function initAlert() {
@@ -5,17 +6,21 @@ async function initAlert() {
   const optionsRes = await fetch(`${root}/wp-json/acf/v3/options/options`);
   const options = await optionsRes.json();
   console.log(options);
-  const { acf: { activate_alert, alert_button, alert_delay, alert_text, cookie_id, alert_color } } = options;
-  const button = alert_button ? `
+  const {
+    acf: { activate_alert, alert_button, alert_delay, alert_text, cookie_id, alert_color },
+  } = options;
+  const button = alert_button
+    ? `
     <a class="cdhq-alert__button" href="${alert_button.url}" target="${alert_button.target}">
       ${alert_button.title}
     </a>
-  ` : ``;
+  `
+    : ``;
   const close = `
     <button class="cdhq-alert__close" id="closeAlert" aria-label="Close alert">
       <span></span>
       <span></span>
-    </button>
+    </button> 
   `;
   const alert = `
     <div class="cdhq-alert"${alert_color ? `style="background: ${alert_color};"` : ``}>
