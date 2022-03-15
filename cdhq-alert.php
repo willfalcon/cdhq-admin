@@ -1,8 +1,13 @@
 <?php
 /**
  * Plugin Name: CDHQ Alert Plugin
- * Version: 1.1.0
+ * Description: Simple dismissible site-wide alert.
+ * Version: 1.2.0
  */
+
+
+defined( 'ABSPATH' ) || exit;
+
 
 if (!class_exists('ACF')) {
  // Define path and URL to the ACF plugin.
@@ -42,3 +47,21 @@ function cdhq_add_site_root() {
   echo '<meta name="cdhq-site-root" content="' .  get_bloginfo('url') . '">';
 }
 add_action( 'wp_head', 'cdhq_add_site_root');
+
+
+if ( ! function_exists('write_log')) {
+  function write_log ( $log )  {
+     if ( is_array( $log ) || is_object( $log ) ) {
+        error_log( print_r( $log, true ) );
+     } else {
+        error_log( $log );
+     }
+  }
+}
+
+require 'includes/plugin-update-checker/plugin-update-checker.php';
+$MyUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+	'https://plugins.creativedistillery.com/updates/?action=get_metadata&slug=cdhq-alert', //Metadata URL.
+	__FILE__, //Full path to the main plugin file.
+	'plugin-directory-name' //Plugin slug. Usually it's the same as the name of the directory.
+);
