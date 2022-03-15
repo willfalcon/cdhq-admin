@@ -96,6 +96,23 @@ acf_add_local_field_group(array(
 			'default_value' => '',
 		),
 		array(
+			'key' => 'field_62310cc629593',
+			'label' => 'Expiration',
+			'name' => 'alert_expiration',
+			'type' => 'date_time_picker',
+			'instructions' => '',
+			'required' => 0,
+			'conditional_logic' => 0,
+			'wrapper' => array(
+				'width' => '',
+				'class' => '',
+				'id' => '',
+			),
+			'display_format' => 'F j, Y g:i a',
+			'return_format' => 'd/m/Y g:i a',
+			'first_day' => 0,
+		),
+		array(
 			'key' => 'field_5e7d1e2208a4e',
 			'label' => 'Cookie ID',
 			'name' => 'cookie_id',

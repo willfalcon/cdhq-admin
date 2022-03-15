@@ -2,7 +2,7 @@
 /**
  * Plugin Name: CDHQ Alert Plugin
  * Description: Simple dismissible site-wide alert.
- * Version: 1.2.1
+ * Version: 1.3.0
  */
 
 
@@ -38,8 +38,16 @@ acf_add_options_page(array(
 
 include_once('fields.php');
 function cdhq_enqueue_assets() {
-  wp_enqueue_script( 'alert-scripts', plugins_url( '/dist/bundle.min.js', __FILE__ ), array(), null, true);
-  wp_enqueue_style( 'alert-styles', plugins_url( '/dist/styles.min.css', __FILE__ ) );
+
+  $env = wp_get_environment_type();
+
+  if ($env == 'development' || $env == 'local') {
+    wp_enqueue_script( 'alert-scripts', plugins_url( '/dist/bundle.js', __FILE__ ), array(), null, true);
+    wp_enqueue_style( 'alert-styles', plugins_url( '/dist/styles.css', __FILE__ ) );
+  } else {
+    wp_enqueue_script( 'alert-scripts', plugins_url( '/dist/bundle.min.js', __FILE__ ), array(), null, true);
+    wp_enqueue_style( 'alert-styles', plugins_url( '/dist/styles.min.css', __FILE__ ) );
+  }
 }
 add_action( 'wp_enqueue_scripts', 'cdhq_enqueue_assets' );
 

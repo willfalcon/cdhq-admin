@@ -1,3 +1,5 @@
+import { parse, isPast } from 'date-fns';
+
 import './scripts/polyfills';
 import { createCookie, getCookie, getMeta } from './scripts/utils.js';
 
@@ -6,9 +8,16 @@ async function initAlert() {
   const optionsRes = await fetch(`${root}/wp-json/acf/v3/options/options`);
   const options = await optionsRes.json();
   console.log(options);
+
   const {
-    acf: { activate_alert, alert_button, alert_delay, alert_text, cookie_id, alert_color },
+    acf: { activate_alert, alert_button, alert_delay, alert_text, cookie_id, alert_color, alert_expiration },
   } = options;
+
+  const expiration = alert_expiration ? parse(alert_expiration, 'dd/MM/yyyy hh:mm a', new Date()) : null;
+  const now = new Date();
+
+  const expirationPassed = expiration ? isPast(expiration) : false;
+
   const button = alert_button
     ? `
     <a class="cdhq-alert__button" href="${alert_button.url}" target="${alert_button.target}">
@@ -31,7 +40,7 @@ async function initAlert() {
       ${close}
     </div>
   `;
-  if (activate_alert && !getCookie(cookie_id)) {
+  if (activate_alert && !getCookie(cookie_id) && !expirationPassed) {
     setTimeout(() => {
       document.body.insertAdjacentHTML('afterbegin', alert);
       const alertEl = document.querySelector('.cdhq-alert');
