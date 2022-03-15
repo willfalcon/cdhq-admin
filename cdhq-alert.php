@@ -2,7 +2,7 @@
 /**
  * Plugin Name: CDHQ Alert Plugin
  * Description: Simple dismissible site-wide alert.
- * Version: 1.2.0
+ * Version: 1.2.1
  */
 
 
