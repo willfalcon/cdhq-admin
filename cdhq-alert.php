@@ -41,14 +41,29 @@ function cdhq_enqueue_assets() {
 
   $env = wp_get_environment_type();
 
-  if ($env == 'development' || $env == 'local') {
-    wp_enqueue_script( 'alert-scripts', plugins_url( '/dist/bundle.js', __FILE__ ), array(), null, true);
-    wp_enqueue_style( 'alert-styles', plugins_url( '/dist/styles.css', __FILE__ ) );
-  } else {
-    wp_enqueue_script( 'alert-scripts', plugins_url( '/dist/bundle.min.js', __FILE__ ), array(), null, true);
-    wp_enqueue_style( 'alert-styles', plugins_url( '/dist/styles.min.css', __FILE__ ) );
+  if (get_field('activate_alert', 'options')) {
+    if (get_field('alert_test_mode', 'options')) {
+      if (is_page( 'cdhq-alert-test' )) {
+        if ($env == 'development' || $env == 'local') {
+          wp_enqueue_script( 'alert-scripts', plugins_url( '/dist/index.js', __FILE__ ), array(), null, true);
+          wp_enqueue_style( 'alert-styles', plugins_url( '/dist/styles.css', __FILE__ ) );
+        } else {
+          wp_enqueue_script( 'alert-scripts', plugins_url( '/dist/index.min.js', __FILE__ ), array(), null, true);
+          wp_enqueue_style( 'alert-styles', plugins_url( '/dist/styles.min.css', __FILE__ ) );
+        }
+      }
+    } else {
+      if ($env == 'development' || $env == 'local') {
+        wp_enqueue_script( 'alert-scripts', plugins_url( '/dist/index.js', __FILE__ ), array(), null, true);
+        wp_enqueue_style( 'alert-styles', plugins_url( '/dist/styles.css', __FILE__ ) );
+      } else {
+        wp_enqueue_script( 'alert-scripts', plugins_url( '/dist/index.min.js', __FILE__ ), array(), null, true);
+        wp_enqueue_style( 'alert-styles', plugins_url( '/dist/styles.min.css', __FILE__ ) );
+      }
+    }
   }
 }
+
 add_action( 'wp_enqueue_scripts', 'cdhq_enqueue_assets' );
 
 function cdhq_add_site_root() {
@@ -73,3 +88,35 @@ $MyUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 	__FILE__, //Full path to the main plugin file.
 	'plugin-directory-name' //Plugin slug. Usually it's the same as the name of the directory.
 );
+
+
+add_action( 'rest_api_init', function () {
+  register_rest_route( 'cdhq/v1', '/alert', array(
+    'methods' => \WP_REST_Server::READABLE,
+    'callback' => 'cdhq_api_get_alert',
+    'permission_callback' => '__return_true'
+  ) );
+});
+if (!function_exists('cdhq_api_get_alert') && function_exists('get_field')) {
+  function cdhq_api_get_alert() {
+    $activated = get_field('activate_alert', 'options');
+    // $alert = get_field('alert_settings', 'options');
+    $text = get_field('alert_text', 'options');
+    $button = get_field('alert_button', 'options');
+    $delay = get_field('alert_delay', 'options');
+    $color = get_field('color_picker', 'options');
+    $expiration = get_field('alert_expiration', 'options');
+    $id = get_field('cookie_id', 'options');
+
+    $res = new stdClass();
+    $res->activated = $activated;
+    // $res->alert = $alert;
+    $res->text = $text;
+    $res->button = $button;
+    $res->delay = $delay;
+    $res->color = $color;
+    $res->expiration = $expiration;
+    $res->id = $id;
+    return $res;
+  }
+}

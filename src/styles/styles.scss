@@ -18,7 +18,8 @@ $green: #4fa85d;
   padding-right: 3.5rem;
   border-radius: 1px;
   align-items: center;
-  z-index: 3;
+  z-index: 10000; 
+  will-change: transform;
   .admin-bar & {
     top: 46px + 5px;
     @include responsive {

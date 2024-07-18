@@ -1,27 +1,24 @@
 import { parse, isPast } from 'date-fns';
 
-import './scripts/polyfills';
-import { createCookie, getCookie, getMeta } from './scripts/utils.js';
+// import './polyfills.js';
+import { createCookie, getCookie, getMeta } from './utils.js';
 
 async function initAlert() {
   const root = getMeta('cdhq-site-root');
-  const optionsRes = await fetch(`${root}/wp-json/acf/v3/options/options`);
+  const optionsRes = await fetch(`${root}/wp-json/cdhq/v1/alert`);
   const options = await optionsRes.json();
-  console.log(options);
 
-  const {
-    acf: { activate_alert, alert_button, alert_delay, alert_text, cookie_id, alert_color, alert_expiration },
-  } = options;
+  const { activated, button, delay, text, id, color, expiration } = options;
 
-  const expiration = alert_expiration ? parse(alert_expiration, 'dd/MM/yyyy hh:mm a', new Date()) : null;
+  const expires = expiration ? parse(expiration, 'dd/MM/yyyy hh:mm a', new Date()) : null;
   const now = new Date();
 
-  const expirationPassed = expiration ? isPast(expiration) : false;
+  const expirationPassed = expires ? isPast(expires) : false;
 
-  const button = alert_button
+  const buttonHtml = button
     ? `
-    <a class="cdhq-alert__button" href="${alert_button.url}" target="${alert_button.target}">
-      ${alert_button.title}
+    <a class="cdhq-alert__button" href="${button.url}" target="${button.target}">
+      ${button.title}
     </a>
   `
     : ``;
@@ -32,23 +29,23 @@ async function initAlert() {
     </button> 
   `;
   const alert = `
-    <div class="cdhq-alert"${alert_color ? `style="background: ${alert_color};"` : ``}>
+    <div class="cdhq-alert"${color ? `style="background: ${color};"` : ``}>
       <div class="cdhq-alert__text">
-        ${alert_text}
+        ${text}
       </div>
-      ${button} 
+      ${buttonHtml} 
       ${close}
     </div>
   `;
-  if (activate_alert && !getCookie(cookie_id) && !expirationPassed) {
+  if (activated && !getCookie(id) && !expirationPassed) {
     setTimeout(() => {
       document.body.insertAdjacentHTML('afterbegin', alert);
       const alertEl = document.querySelector('.cdhq-alert');
       setTimeout(() => {
         alertEl.style.transform = `translateX(-50%) translateY(0%)`;
       }, 0);
-      attachListeners(alertEl, cookie_id);
-    }, alert_delay * 1000);
+      attachListeners(alertEl, id);
+    }, parseInt(delay) * 1000);
   }
 }
 
