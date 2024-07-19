@@ -2,7 +2,7 @@
 /**
  * Plugin Name: CDHQ Alert Plugin
  * Description: Simple dismissible site-wide alert.
- * Version: 1.3.0
+ * Version: 1.3.1
  */
 
 
@@ -104,7 +104,7 @@ if (!function_exists('cdhq_api_get_alert') && function_exists('get_field')) {
     $text = get_field('alert_text', 'options');
     $button = get_field('alert_button', 'options');
     $delay = get_field('alert_delay', 'options');
-    $color = get_field('color_picker', 'options');
+    $color = get_field('alert_color', 'options');
     $expiration = get_field('alert_expiration', 'options');
     $id = get_field('cookie_id', 'options');
 

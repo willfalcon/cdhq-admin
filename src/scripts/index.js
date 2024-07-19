@@ -9,6 +9,7 @@ async function initAlert() {
   const options = await optionsRes.json();
 
   const { activated, button, delay, text, id, color, expiration } = options;
+  // console.log(options);
 
   const expires = expiration ? parse(expiration, 'dd/MM/yyyy hh:mm a', new Date()) : null;
   const now = new Date();
